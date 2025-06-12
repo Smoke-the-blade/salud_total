@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -12,6 +12,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-def read_root():
-    return {"mensaje": "API de Salud Total en FastAPI está funcionando"}
+# Permitir peticiones desde el frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # en producción poné solo la URL de tu frontend
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Simulamos una base de datos con 1 usuario por ahora
+FAKE_ADMIN_DB = {
+    "admin@clinica.com": {
+        "contrasena": "admin123",  # en producción, usar hash (ej. bcrypt)
+    }
+}
+
+@app.post("/login")
+def login(email: str = Form(...), contrasena: str = Form(...)):
+    usuario = FAKE_ADMIN_DB.get(email)
+    if not usuario or usuario["contrasena"] != contrasena:
+        raise HTTPException(status_code=401, detail="Credenciales inválidas")
+    return {"mensaje": "Login exitoso", "usuario": email}

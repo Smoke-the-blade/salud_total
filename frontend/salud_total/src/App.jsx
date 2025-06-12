@@ -1,13 +1,23 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './src/pages/Login.jsx';
+import AdminDashboard from './src/pages/AdminDashboard.jsx';
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import './styles.css'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+      </Routes>
+    </BrowserRouter>
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
