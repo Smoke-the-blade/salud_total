@@ -6,7 +6,7 @@ app = FastAPI()
 # CORS para permitir acceso desde React
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Cambiar si usás otro puerto en Vite
+    allow_origins=["http://localhost:8000"],  # Cambiar si usás otro puerto en Vite
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import qs from 'qs';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -13,10 +14,15 @@ function Login() {
     setError('');
 
     try {
-      const res = await axios.post('http://localhost:3001/api/auth/login', {
-        email,
-        contrasena: password
-      });
+      const res = await axios.post(
+        'http://localhost:8000/login',
+        qs.stringify({ email, contrasena: password }),
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        }
+      );
 
       const usuario = res.data.usuario;
 
@@ -64,3 +70,5 @@ function Login() {
     </div>
   );
 }
+
+export default Login;
